@@ -29,7 +29,7 @@ namespace UnitTestQuestions
                 LoanTermYears = 1,
                 DownPayment = 1
             };
-            Assert.AreEqual(Math.Round(calc.CalculatePayment(), 2), 449.79);
+            Assert.AreEqual(Math.Round(calc.CalculatePayment(), 2), 449.79); 
         }
     }
 }
