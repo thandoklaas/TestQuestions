@@ -21,8 +21,7 @@ namespace Questions
             // 1. Login
             // 2. Use the token received from the login for the Get, Put, Delete and List:
             // 3. Write the output to the console
-
-            var result = "";
+            
             const string url = "https://reqres.in/api/login";
 
             var jsonString = new JavaScriptSerializer().Serialize(new
@@ -31,14 +30,7 @@ namespace Questions
                 password = "cityslicka"
             });
 
-            using (var client = new WebClient())
-            {
-                client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                client.Encoding = Encoding.UTF8;
-                result = client.UploadString(url, "POST", jsonString);
-            }
-
-            dynamic jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject(result);
+            dynamic jsonResult = GetJsonResultSet(url, "POST", jsonString);
 
             Console.WriteLine("--Login Function--");
             foreach (var item in jsonResult)
@@ -55,8 +47,7 @@ namespace Questions
             // Using Requires at https://reqres.in/ as your input data, write a rest based service that:
 
             // 1. Preform relevant function on a  user
-
-            var result = "";
+            
             const string url = "https://reqres.in/api/users";
 
             var jsonString = new JavaScriptSerializer().Serialize(new
@@ -65,14 +56,7 @@ namespace Questions
                 job = "leader"
             });
 
-            using (var client = new WebClient())
-            {
-                client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                client.Encoding = Encoding.UTF8;
-                result = client.UploadString(url, "POST", jsonString);
-            }
-
-            dynamic jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject(result);
+            dynamic jsonResult = GetJsonResultSet(url, "POST", jsonString);
 
             Console.WriteLine("--Post Function--");
             foreach (var item in jsonResult)
@@ -80,9 +64,9 @@ namespace Questions
                 Console.WriteLine(item.ToString());
             }
 
-
             Console.WriteLine("--Test Completed--");
         }
+
 
         public static void Get()
         {
@@ -117,8 +101,7 @@ namespace Questions
             // Using Requires at https://reqres.in/ as your input data, write a rest based service that:
 
             // 1. Preform relevant function on a  user
-
-            var result = "";
+            
             const string url = "https://reqres.in/api/users/2";
 
             var jsonString = new JavaScriptSerializer().Serialize(new
@@ -127,16 +110,8 @@ namespace Questions
                 job = "zion resident"
             });
 
-            using (var client = new WebClient())
-            {
-                client.Headers[HttpRequestHeader.ContentType] = "application/json";
-                client.Encoding = Encoding.UTF8;
-                result = client.UploadString(url, "PUT", jsonString);
-            }
-
-            dynamic jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject(result);
-
-            Console.WriteLine("--Put Function--");
+            dynamic jsonResult = GetJsonResultSet(url, "PUT", jsonString);
+            
             foreach (var item in jsonResult)
             {
                 Console.WriteLine(item.ToString());
@@ -200,6 +175,22 @@ namespace Questions
                 Console.WriteLine(item.ToString());
             }
             Console.WriteLine("--Test Completed--");
+        }
+
+        private static dynamic GetJsonResultSet(string url, string method, string jsonString)
+        {
+            var result = string.Empty;
+
+            using (var client = new WebClient())
+            {
+                client.Headers[HttpRequestHeader.ContentType] = "application/json";
+                client.Encoding = Encoding.UTF8;
+                result = client.UploadString(url, method, jsonString);
+            }
+
+            dynamic jsonResult = Newtonsoft.Json.JsonConvert.DeserializeObject(result);
+
+            return jsonResult;
         }
     }
 }
